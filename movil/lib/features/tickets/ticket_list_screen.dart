@@ -4,6 +4,7 @@ import '../../core/theme/app_text_styles.dart';
 import '../../core/constants/app_strings.dart';
 import '../../data/datasources/ticket_list_datasource.dart';
 import '../../data/models/ticket_model.dart';
+import '../../data/repositories/auth_repository.dart';
 import '../../routes/app_router.dart';
 import 'widgets/ticket_tile.dart';
 import 'widgets/empty_tickets_widget.dart';
@@ -17,17 +18,28 @@ class TicketListScreen extends StatefulWidget {
 
 class _TicketListScreenState extends State<TicketListScreen> {
   final _datasource = TicketListDatasource();
+  final _auth = AuthRepository();
   late Future<List<TicketModel>> _future;
 
   @override
   void initState() {
     super.initState();
-    _future = _datasource.getActiveTickets();
+    _load();
+  }
+
+  Future<void> _load() async {
+    final userId = await _auth.getUserId();
+    if (!mounted) return;
+    setState(() {
+      _future = _datasource.getActiveTickets(userId ?? 0);
+    });
   }
 
   Future<void> _refresh() async {
+    final userId = await _auth.getUserId();
+    if (!mounted) return;
     setState(() {
-      _future = _datasource.getActiveTickets();
+      _future = _datasource.getActiveTickets(userId ?? 0);
     });
     await _future;
   }
@@ -68,7 +80,7 @@ class _TicketListScreenState extends State<TicketListScreen> {
             return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
-            print('=== error listando tickets: ${snapshot.error}');
+            debugPrint('=== error listando tickets: ${snapshot.error}');
             return Center(
               child: Padding(
                 padding: const EdgeInsets.all(24),

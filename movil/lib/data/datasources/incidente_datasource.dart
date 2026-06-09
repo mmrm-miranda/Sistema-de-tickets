@@ -29,9 +29,9 @@ class IncidenteDatasource {
 
   Future<List<IncidenteItem>> getIncidentesPorCategoria(String categoria) async {
     final attempts = <String>[
-      'id, Incidente, Tiempo, Agente, Prioridad',
+      'id, Incidente, Tiempo, Agentes, Prioridad',
       'id, Incidente, Tiempo, Prioridad',
-      'id, Incidente, Tiempo, Agente',
+      'id, Incidente, Tiempo, Agentes',
       'id, Incidente, Tiempo',
     ];
 
@@ -43,7 +43,7 @@ class IncidenteDatasource {
             .eq('Categoria', categoria);
         debugPrint('[IncidenteDatasource] cols=$cols -> ${res.length} rows');
         return res.map((r) {
-          final agente = r['Agente'];
+          final agente = r['Agentes'];
           return IncidenteItem(
             id:        r['id'] as int,
             incidente: r['Incidente'] as String,

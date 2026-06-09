@@ -173,7 +173,7 @@ class _ReportScreenState extends State<ReportScreen> {
           incidenteId:  _selectedIncidente!.id,
           departamento: dept ?? '',
           descripcion:  _descController.text.trim(),
-          agente:       _selectedIncidente!.agenteId ?? 1,
+          agente:       _selectedIncidente!.agenteId ?? 9,
           prioridad:    _selectedIncidente!.prioridad ?? 'Baja',
         );
       }

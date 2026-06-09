@@ -11,12 +11,11 @@ class TicketTile extends StatelessWidget {
   const TicketTile({super.key, required this.ticket, required this.onTap});
 
   Color get _statusColor {
-    switch (ticket.statusEnum) {
-      case TicketStatus.pending:   return AppColors.statusPending;
-      case TicketStatus.inProcess: return AppColors.statusProcess;
-      case TicketStatus.blocked:   return AppColors.statusBlocked;
-      case TicketStatus.finished:  return AppColors.textSecondary;
-    }
+    final s = ticket.status.toLowerCase();
+    if (s.contains('pendiente')) return AppColors.statusPending;
+    if (s.contains('proceso')) return AppColors.statusResolved;
+    if (s.contains('cerrado') || s.contains('resuelto')) return AppColors.statusClosed;
+    return AppColors.textSecondary;
   }
 
   @override
@@ -27,6 +26,7 @@ class TicketTile extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
         color: _statusColor.withValues(alpha: 0.12),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               width: 4,
@@ -61,6 +61,15 @@ class TicketTile extends StatelessWidget {
                       style: AppTextStyles.caption.copyWith(
                         color: AppColors.textSecondary,
                       )),
+                  if (ticket.lastComment != null && ticket.lastComment!.isNotEmpty) ...[
+                    const SizedBox(height: 4),
+                    Text(ticket.lastComment!,
+                        style: AppTextStyles.caption.copyWith(
+                          color: AppColors.textPrimary,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis),
+                  ],
                 ],
               ),
             ),

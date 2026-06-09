@@ -23,6 +23,7 @@ class AppStrings {
   static const String departamento   = 'Departamento';
   static const String faultDesc      = 'Descripción de la falla:';
   static const String response       = 'Respuesta:';
+  static const String conversacion   = 'Conversación';
   static const String waitingTech    = 'Aun no hay respuesta de un técnico, por favor espera';
   static const String noAttend       = 'Sin atender';
 

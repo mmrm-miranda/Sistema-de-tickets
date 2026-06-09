@@ -1,5 +1,3 @@
-enum TicketStatus { pending, inProcess, blocked, finished }
-
 enum TicketSource { tickets, otrosIncidentes }
 
 class TicketModel {
@@ -14,6 +12,8 @@ class TicketModel {
   final String? prioridad;
   final int? agente;
   final String? tiempo;
+  final String? lastComment;
+  final DateTime? lastCommentDate;
   final TicketSource source;
 
   const TicketModel({
@@ -29,24 +29,16 @@ class TicketModel {
     this.prioridad,
     this.agente,
     this.tiempo,
+    this.lastComment,
+    this.lastCommentDate,
   });
 
-  TicketStatus get statusEnum {
-    switch (status) {
-      case 'Pendiente':   return TicketStatus.pending;
-      case 'En proceso':  return TicketStatus.inProcess;
-      case 'Bloqueado':   return TicketStatus.blocked;
-      case 'Terminado':   return TicketStatus.finished;
-      default:            return TicketStatus.pending;
-    }
-  }
-
   String get statusLabel {
-    switch (statusEnum) {
-      case TicketStatus.pending:   return 'Pendiente';
-      case TicketStatus.inProcess: return 'En proceso';
-      case TicketStatus.blocked:   return 'Bloqueado';
-      case TicketStatus.finished:  return 'Terminado';
+    switch (status) {
+      case 'pending':  return 'Pendiente';
+      case 'resolved': return 'Resuelto';
+      case 'closed':   return 'Cerrado';
+      default:         return status;
     }
   }
 }

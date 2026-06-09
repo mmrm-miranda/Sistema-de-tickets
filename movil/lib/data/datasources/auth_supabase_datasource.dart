@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthSupabaseDatasource {
@@ -58,12 +59,12 @@ class AuthSupabaseDatasource {
 
       return RegisterResult.success;
     } on PostgrestException catch (e) {
-      print('=== PostgrestException: code=${e.code} message=${e.message} details=${e.details}');
+      debugPrint('=== PostgrestException: code=${e.code} message=${e.message} details=${e.details}');
       if (e.code == '23505') return RegisterResult.usernameTaken;
       return RegisterResult.serverError;
     } catch (e, s) {
-      print('=== register catch: $e');
-      print('=== stack: $s');
+      debugPrint('=== register catch: $e');
+      debugPrint('=== stack: $s');
       return RegisterResult.serverError;
     }
   }
@@ -90,7 +91,7 @@ class AuthSupabaseDatasource {
         departamento: res['Departmento'] as String? ?? '',
       );
     } catch (e) {
-      print('=== login error: $e');
+      debugPrint('=== login error: $e');
       return LoginResult.serverError;
     }
   }
